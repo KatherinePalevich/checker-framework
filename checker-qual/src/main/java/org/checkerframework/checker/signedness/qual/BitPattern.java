@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.checkerframework.framework.qual.SubtypeOf;
-import org.checkerframework.framework.qual.SupertypeOf;
 
 /**
  * A type qualifier for values that are not arithmetic quantities, but are manipulated as a pattern
