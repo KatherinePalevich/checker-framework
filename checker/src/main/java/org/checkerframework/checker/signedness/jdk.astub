@@ -1,0 +1,18 @@
+import org.checkerframework.checker.signedness.qual.BitPattern;
+
+// Bit-pattern conversions
+package java.lang;
+
+class Double {
+    @BitPattern
+    public static long doubleToLongBits(double value) { return 0; }
+    @BitPattern
+    public static long doubleToRawLongBits(double value) { return 0; }
+}
+
+class Float {
+    @BitPattern
+    public static int floatToIntBits(float value) { return 0; }
+    @BitPattern
+    public static int floatToRawIntBits(float value) { return 0; }
+}

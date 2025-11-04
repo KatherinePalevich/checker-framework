@@ -1,6 +1,5 @@
-// @skip-test
-
 import org.checkerframework.checker.signedness.qual.BitPattern;
+import org.checkerframework.checker.signedness.qual.Signed;
 
 public class BitPatternOperations {
 
@@ -26,6 +25,8 @@ public class BitPatternOperations {
     // :: error: (operation.bitpattern)
     long sum = bits + 1L;
     // :: error: (operation.bitpattern)
+    String s = "" + bits;
+    // :: error: (operation.bitpattern)
     long difference = 2L - bits;
     // :: error: (operation.bitpattern)
     int product = pattern * 3;
@@ -37,7 +38,12 @@ public class BitPatternOperations {
     bits++;
     // :: error: (unary.bitpattern)
     --pattern;
-    // :: error: (bitpattern.concat)
-    String s = bits + "";
+  }
+
+  void forbiddenMixing(@BitPattern long bits, @Signed long signed) {
+    // :: error: (operation.mixed.bitpatternrhs)
+    long mixed = bits & signed;
+    // :: error: (operation.mixed.bitpatternlhs)
+    long mixed2 = signed | bits;
   }
 }
