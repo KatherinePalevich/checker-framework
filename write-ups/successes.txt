@@ -1,0 +1,7 @@
+The initial generation of the solution was quite fast, in under 5 minutes it had a boilerplate solution. For example, the BitPattern.java file was done in one shot.
+
+The LLM also created its own test cases without me having to prompt it which was nice as well.
+
+It also found the BitPatternOperations test suite without me having to prompt the LLM to tell it the location of the file.
+
+Although there were so many files in the codebase, Jules was able to find the relevant files pretty easily. I sometimes had to point it to the SignedVisitor.java file, and then it would find the relevant files from there.
