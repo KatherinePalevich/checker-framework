@@ -1,23 +1,23 @@
-The LLM got very stuck on having to pass the BitPatternOperations tests. It spent 2+ hours modifying the code and rerunning 
+The LLM got very stuck on having to pass the BitPatternOperations tests. It spent 2+ hours modifying the code and rerunning
 the test for just one session. Then it gave up after doing too many cycles.
 
-The LLM got stuck on how to fit the BitPattern as a subtype and supertype. I had to manually tell it how to modify the code 
-to correctly be a super type of SignednessBottom and sub type of UnknownSignedness. Because I couldn’t paste an image of the graph 
+The LLM got stuck on how to fit the BitPattern as a subtype and supertype. I had to manually tell it how to modify the code
+to correctly be a super type of SignednessBottom and sub type of UnknownSignedness. Because I couldn’t paste an image of the graph
 relationship from the documentation, I decided to manually correct the code instead.
 
-I had to do a bit of reading on my own to understand what the tests were doing in order to catch that Jules had not properly 
-implemented the bitwise operations. Specifically, I had previously told it to assume that mixed types would never be in the 
+I had to do a bit of reading on my own to understand what the tests were doing in order to catch that Jules had not properly
+implemented the bitwise operations. Specifically, I had previously told it to assume that mixed types would never be in the
 same expression. But I was wrong so I had to read the test cases and the error message to find this.
 
-Jules hallucinated a TreeUtils func skipParens, I had to paste in the TreeUtils class to Jules and have it suggested withoutParents. 
+Jules hallucinated a TreeUtils func skipParens, I had to paste in the TreeUtils class to Jules and have it suggested withoutParents.
 I could have done this myself faster tbh.
 
 Because the given spec is so brief, Jules had to ask a lot more clarification questions.
 
-Jules would assign the wrong error. It would assign the super class error rather than the bitpattern error. This caused tests to 
+Jules would assign the wrong error. It would assign the super class error rather than the bitpattern error. This caused tests to
 fail when the code was passing through the right lines.
 
-I spent over 13 hours on this homework assignment and I still wasn’t able to resolve five errors. I kept trying to describe the 
-errors to Jules and suggest fixes. And then Jules would attempt a solution but then run in circles trying to pass the test. Even 
-when I asked it to just try and fix one type of error, it would try to fix all the errors which was very frustrating. I ended up 
+I spent over 13 hours on this homework assignment and I still wasn’t able to resolve five errors. I kept trying to describe the
+errors to Jules and suggest fixes. And then Jules would attempt a solution but then run in circles trying to pass the test. Even
+when I asked it to just try and fix one type of error, it would try to fix all the errors which was very frustrating. I ended up
 having to copy and paste, basically cherry pick, the code I did like.
