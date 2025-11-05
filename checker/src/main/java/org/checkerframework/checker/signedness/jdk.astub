@@ -8,7 +8,7 @@ class Double {
     public static long doubleToLongBits(double value) { return 0; }
     @BitPattern
     public static long doubleToRawLongBits(double value) { return 0; }
-    
+
     public static double longBitsToDouble(@BitPattern long bits) {return 0.0; }
 }
 
