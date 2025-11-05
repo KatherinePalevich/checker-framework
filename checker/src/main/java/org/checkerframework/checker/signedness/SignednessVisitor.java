@@ -115,14 +115,14 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
           if (hasBitPatternAnnotation(leftOpType) && hasBitPatternAnnotation(rightOpType)) {
             // Both are BitPattern, this is fine.
           } else if (hasBitPatternAnnotation(leftOpType)) {
-            ExpressionTree bareRightOp = TreeUtils.skipParens(rightOp);
+            ExpressionTree bareRightOp = TreeUtils.withoutParens(rightOp);
             if (bareRightOp.getKind() != Tree.Kind.INT_LITERAL
                 && bareRightOp.getKind() != Tree.Kind.LONG_LITERAL) {
               checker.reportError(
                   tree, "operation.mixed.bitpatternrhs", kind, leftOpType, rightOpType);
             }
           } else {
-            ExpressionTree bareLeftOp = TreeUtils.skipParens(leftOp);
+            ExpressionTree bareLeftOp = TreeUtils.withoutParens(leftOp);
             if (bareLeftOp.getKind() != Tree.Kind.INT_LITERAL
                 && bareLeftOp.getKind() != Tree.Kind.LONG_LITERAL) {
               checker.reportError(
@@ -336,7 +336,7 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
           if (hasBitPatternAnnotation(varType) && hasBitPatternAnnotation(exprType)) {
             // Both are BitPattern, this is fine.
           } else if (hasBitPatternAnnotation(varType)) {
-            ExpressionTree bareExpr = TreeUtils.skipParens(expr);
+            ExpressionTree bareExpr = TreeUtils.withoutParens(expr);
             if (bareExpr.getKind() != Tree.Kind.INT_LITERAL
                 && bareExpr.getKind() != Tree.Kind.LONG_LITERAL) {
               checker.reportError(

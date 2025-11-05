@@ -9,12 +9,15 @@ public class BitPatternOperations {
     @BitPattern int fromFloatRaw = Float.floatToRawIntBits(f);
 
     @BitPattern long masked = bits & 0xFFFL;
+    @BitPattern long maskedCopy = masked;
     @BitPattern long combined = bits | fromDouble;
     @BitPattern long shifted = bits >>> 4;
     @BitPattern int shiftedPattern = pattern << 2;
     @BitPattern long complemented = ~bits;
 
     Double.longBitsToDouble(bits);
+    @BitPattern long maskedWithOneBit = masked | 1L;
+    Double.longBitsToDouble(maskedWithOneBit);
     Double.longBitsToDouble(masked | 1L);
     Float.intBitsToFloat(pattern);
     Float.intBitsToFloat(fromFloat);
