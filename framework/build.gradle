@@ -3,7 +3,7 @@ plugins {
 }
 
 ext {
-  annotatedJdkHome = "../../jdk"
+  annotatedJdkHome = "/tmp/jdk"
 }
 sourceSets {
   main {

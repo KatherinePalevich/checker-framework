@@ -16,6 +16,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.signedness.qual.BitPattern;
 import org.checkerframework.checker.signedness.qual.PolySigned;
 import org.checkerframework.checker.signedness.qual.Signed;
 import org.checkerframework.checker.signedness.qual.SignedPositive;
@@ -75,6 +76,10 @@ public class SignednessAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
   /** The @PolySigned annotation. */
   protected final AnnotationMirror POLY_SIGNED =
       AnnotationBuilder.fromClass(elements, PolySigned.class);
+
+  /** The @BitPattern annotation. */
+  protected final AnnotationMirror BIT_PATTERN =
+      AnnotationBuilder.fromClass(elements, BitPattern.class);
 
   /** The @NonNegative annotation of the Index Checker, as represented by the Value Checker. */
   private final AnnotationMirror INT_RANGE_FROM_NON_NEGATIVE =
@@ -304,6 +309,16 @@ public class SignednessAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           } else {
             AnnotatedTypeMirror lht = getAnnotatedType(tree.getLeftOperand());
             type.replaceAnnotations(lht.getPrimaryAnnotations());
+          }
+          break;
+        case AND:
+        case OR:
+        case XOR:
+          AnnotatedTypeMirror lht = getAnnotatedType(tree.getLeftOperand());
+          AnnotatedTypeMirror rht = getAnnotatedType(tree.getRightOperand());
+          if (lht.hasPrimaryAnnotation(BitPattern.class)
+              || rht.hasPrimaryAnnotation(BitPattern.class)) {
+            type.replaceAnnotation(BIT_PATTERN);
           }
           break;
         default:
