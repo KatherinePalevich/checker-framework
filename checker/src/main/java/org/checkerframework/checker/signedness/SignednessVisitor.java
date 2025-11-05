@@ -115,11 +115,19 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
           if (hasBitPatternAnnotation(leftOpType) && hasBitPatternAnnotation(rightOpType)) {
             // Both are BitPattern, this is fine.
           } else if (hasBitPatternAnnotation(leftOpType)) {
-            checker.reportError(
-                tree, "operation.mixed.bitpatternrhs", kind, leftOpType, rightOpType);
+            ExpressionTree bareRightOp = TreeUtils.skipParens(rightOp);
+            if (bareRightOp.getKind() != Tree.Kind.INT_LITERAL
+                && bareRightOp.getKind() != Tree.Kind.LONG_LITERAL) {
+              checker.reportError(
+                  tree, "operation.mixed.bitpatternrhs", kind, leftOpType, rightOpType);
+            }
           } else {
-            checker.reportError(
-                tree, "operation.mixed.bitpatternlhs", kind, leftOpType, rightOpType);
+            ExpressionTree bareLeftOp = TreeUtils.skipParens(leftOp);
+            if (bareLeftOp.getKind() != Tree.Kind.INT_LITERAL
+                && bareLeftOp.getKind() != Tree.Kind.LONG_LITERAL) {
+              checker.reportError(
+                  tree, "operation.mixed.bitpatternlhs", kind, leftOpType, rightOpType);
+            }
           }
           break;
         default:
@@ -183,7 +191,11 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
 
       case PLUS:
         if (TreeUtils.isStringConcatenation(tree)) {
-          if (!typeHierarchy.isSubtypeShallowEffective(leftOpType, atypeFactory.SIGNED)) {
+          if (hasBitPatternAnnotation(leftOpType)) {
+            checker.reportError(leftOp, "bitpattern.concat");
+          } else if (hasBitPatternAnnotation(rightOpType)) {
+            checker.reportError(rightOp, "bitpattern.concat");
+          } else if (!typeHierarchy.isSubtypeShallowEffective(leftOpType, atypeFactory.SIGNED)) {
             checker.reportError(leftOp, "unsigned.concat");
           } else if (!typeHierarchy.isSubtypeShallowEffective(rightOpType, atypeFactory.SIGNED)) {
             checker.reportError(rightOp, "unsigned.concat");
@@ -324,12 +336,16 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
           if (hasBitPatternAnnotation(varType) && hasBitPatternAnnotation(exprType)) {
             // Both are BitPattern, this is fine.
           } else if (hasBitPatternAnnotation(varType)) {
-            checker.reportError(
-                tree,
-                "compound.assignment.mixed.bitpattern.variable",
-                kindWithoutAssignment(kind),
-                varType,
-                exprType);
+            ExpressionTree bareExpr = TreeUtils.skipParens(expr);
+            if (bareExpr.getKind() != Tree.Kind.INT_LITERAL
+                && bareExpr.getKind() != Tree.Kind.LONG_LITERAL) {
+              checker.reportError(
+                  tree,
+                  "compound.assignment.mixed.bitpattern.variable",
+                  kindWithoutAssignment(kind),
+                  varType,
+                  exprType);
+            }
           } else {
             checker.reportError(
                 tree,
@@ -391,7 +407,9 @@ public class SignednessVisitor extends BaseTypeVisitor<SignednessAnnotatedTypeFa
 
       case PLUS_ASSIGNMENT:
         if (TreeUtils.isStringCompoundConcatenation(tree)) {
-          if (!typeHierarchy.isSubtypeShallowEffective(exprType, atypeFactory.SIGNED)) {
+          if (hasBitPatternAnnotation(exprType)) {
+            checker.reportError(tree.getExpression(), "bitpattern.concat");
+          } else if (!typeHierarchy.isSubtypeShallowEffective(exprType, atypeFactory.SIGNED)) {
             checker.reportError(tree.getExpression(), "unsigned.concat");
           }
           break;
