@@ -317,7 +317,7 @@ public class SignednessAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
           AnnotatedTypeMirror lht = getAnnotatedType(tree.getLeftOperand());
           AnnotatedTypeMirror rht = getAnnotatedType(tree.getRightOperand());
           if (lht.hasPrimaryAnnotation(BitPattern.class)
-              && rht.hasPrimaryAnnotation(BitPattern.class)) {
+              || rht.hasPrimaryAnnotation(BitPattern.class)) {
             type.replaceAnnotation(BIT_PATTERN);
           }
           break;
